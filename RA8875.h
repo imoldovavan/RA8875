@@ -353,7 +353,7 @@ class RA8875 : public Print {
 		}	
 	}
 //-------------- GAUGES ---------------------------------------------------------------------------
-	void 		ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16_t r, const char* units="none", uint16_t colorScheme=4,uint16_t backSegColor=RA8875_BLACK,int16_t angle=150,uint8_t inc=10);
+	void 		ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16_t r, const char* units="none", uint16_t colorScheme=4,uint16_t backSegColor=RA8875_BLACK,int16_t angle=150,uint8_t inc=10,uint8_t seg = 3);
 	void		roundGaugeTicker(uint16_t x, uint16_t y, uint16_t r, int from, int to, float dev,uint16_t color);
 //-------------- LAYERS --------------------------------------------------------------------------
 	void 		useLayers(boolean on);//mainly used to turn of layers!

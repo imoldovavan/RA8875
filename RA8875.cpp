@@ -3940,9 +3940,10 @@ void RA8875::drawPolygon(int16_t cx, int16_t cy, uint8_t sides, int16_t diameter
 	  backSegColor: the color of the segments not active (default BLACK)
 	  angle:		90 -> 180 (the shape of the meter, 90:halfway, 180:full round, 150:default)
 	  inc: 			5...20 (5:solid, 20:sparse divisions, default:10)
+	  seg: segemnt width in degrees default was 5 but 2 worked beeter
 */
 /**************************************************************************/
-void RA8875::ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16_t r, const char* units, uint16_t colorScheme,uint16_t backSegColor,int16_t angle,uint8_t inc)
+void RA8875::ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16_t r, const char* units, uint16_t colorScheme,uint16_t backSegColor,int16_t angle,uint8_t inc,uint8_t seg)
 {
 	if (inc < 5) inc = 5;
 	if (inc > 20) inc = 20;
@@ -3954,7 +3955,7 @@ void RA8875::ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16
 	x += r;
 	y += r;   // Calculate coords of centre of ring
 	uint16_t w = r / 4;    // Width of outer ring is 1/4 of radius
-	const uint8_t seg = 5; // Segments are 5 degrees wide = 60 segments for 300 degrees
+	// const uint8_t seg = 2; // Segments are 5 degrees wide = 60 segments for 300 degrees
 	// Draw colour blocks every inc degrees
 	for (int16_t i = -angle; i < angle; i += inc) {
 		colour = RA8875_BLACK;
@@ -4026,8 +4027,8 @@ void RA8875::ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16
 		if (angle > 90) {
 			fillCircle(x, y, r - w, _backColor); 
 		} else {
-			fillCurve(x, y + getFontHeight() / 2, r - w, r - w, 1, _backColor);
-			fillCurve(x, y + getFontHeight() / 2, r - w, r - w, 2, _backColor);
+			fillCurve(x, 1 + y + getFontHeight() / 2, r - w - 1, r - w - 1, 1, _backColor);
+			fillCurve(x, 1 + y + getFontHeight() / 2, r - w - 1, r - w - 1, 2, _backColor);
 		}
 		//prepare for write text
 		if (r > 84) {
@@ -4038,7 +4039,7 @@ void RA8875::ringMeter(int val, int minV, int maxV, int16_t x, int16_t y, uint16
 		if (_portrait){
 			setCursor(y, x - 15, true);
 		} else {
-			setCursor(x - 15, y, true);
+			setCursor(x - 10, y, true);
 		}
 		print(val);
 		print(" ");

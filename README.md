@@ -46,7 +46,7 @@ Moved a lot of 'bla bla' in the wiki, readme cleaned.
  - 
  **0.70b11p9** changes...(will be downloadable in few hours)<br>
  - Fixed compiling compatibility with Particle Spark<br>
- 
+ - Fixed some small bugs (thanks Mr Tom), added some extra support for different CPU's, fixed a couple of examples.<br>
 
 Current beta **tested only with**:
 * EastRising RA8875 5"Inch (480x272) with resistive Touch or FT chip capacitive<br>

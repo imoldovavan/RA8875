@@ -2,7 +2,7 @@
 	--------------------------------------------------
 	RA8875 LCD/TFT Graphic Controller Driver Library
 	--------------------------------------------------
-	Version:0.70b11p10
+	Version:0.70b11p11
 	++++++++++++++++++++++++++++++++++++++++++++++++++
 	Written by: Max MC Costa for s.u.m.o.t.o.y
 	++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -48,6 +48,7 @@ M.Sandercrock, the experimentalist, MrTom and many others
 	0.70b11p9 changes: Now compile with particle spark! But spark development toolchain it's a nightmare so 
 	use https://github.com/sumotoy/spark_ra8875
 	0.70b11p10: Some changes proposed by MrTom to fix the triangle hardware bug of RA8875
+	0.70b11p11: Minor changes on triangles helper (MrTom)
 -------------------------------------------------------------------------------------
 				>>>>>>>>>>>>>>>>>>>>> Wiring <<<<<<<<<<<<<<<<<<<<<<<<<
 -------------------------------------------------------------------------------------
@@ -640,7 +641,7 @@ using Print::write;
 	//inline __attribute__((always_inline))
 	uint8_t _color16To8bpp(uint16_t color) 
 		__attribute__((always_inline)) {
-		return ((color & 0x3800) >> 6 | (color & 0x00E0) >> 3 | (color & 0x0003));
+		return (map((color & 0xF800) >> 11, 0,28, 0,7)<<5 | map((color & 0x07E0) >> 5, 0,56, 0,7)<<2 | map(color & 0x001F, 0,24, 0,3));
 	}
 		
 	//inline __attribute__((always_inline)) 

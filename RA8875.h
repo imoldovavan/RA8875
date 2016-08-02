@@ -161,7 +161,7 @@ CS       10		53           YES       CS
 enum RA8875sizes { 			RA8875_480x272, RA8875_800x480, RA8875_800x480ALT, Adafruit_480x272, Adafruit_800x480 };
 enum RA8875tcursor { 		NOCURSOR=0,IBEAM,UNDER,BLOCK };//0,1,2,3
 enum RA8875tsize { 			X16=0,X24,X32 };//0,1,2
-enum RA8875fontSource { 	INT=0, EXT };//0,1
+enum RA8875fontSource { 	INTFONT=0, EXTFONT };//0,1
 enum RA8875fontCoding { 	ISO_IEC_8859_1, ISO_IEC_8859_2, ISO_IEC_8859_3, ISO_IEC_8859_4 };
 enum RA8875extRomType { 	GT21L16T1W, GT21H16T1W, GT23L16U2W, GT30L16U2W, GT30H24T3Y, GT23L24T3Y, GT23L24M1Z, GT23L32S4W, GT30H32S4W, GT30L32S4W, ER3303_1, ER3304_1, ER3301_1 };
 enum RA8875extRomCoding { 	GB2312, GB12345, BIG5, UNICODE, ASCII, UNIJIS, JIS0208, LATIN };
@@ -220,7 +220,7 @@ class RA8875 : public Print {
 	// void 		debugData(uint16_t data,uint8_t len=8);
 	// void 		showLineBuffer(uint8_t data[],int len);
 //------------- INSTANCE -------------------------------------------------------------------
-	#if defined(__MK20DX128__) || defined(__MK20DX256__)//Teensy 3.0, Teensy 3.1
+	#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__)
 		RA8875(const uint8_t CSp,const uint8_t RSTp=255,const uint8_t mosi_pin=11,const uint8_t sclk_pin=13,const uint8_t miso_pin=12);
 	#elif defined(__MKL26Z64__)//TeensyLC
 		RA8875(const uint8_t CSp,const uint8_t RSTp=255,const uint8_t mosi_pin=11,const uint8_t sclk_pin=13,const uint8_t miso_pin=12);
@@ -310,7 +310,7 @@ class RA8875 : public Print {
 	uint8_t 	getFontHeight(boolean inRows=false);
 	//----------FONT -------------------------------------------------------------------------
 	void		setExternalFontRom(enum RA8875extRomType ert, enum RA8875extRomCoding erc,enum RA8875extRomFamily erf=STANDARD);
-	void 		setFont(enum RA8875fontSource s);//INT,EXT (if you have a chip installed)
+	void 		setFont(enum RA8875fontSource s);//INTFONT,EXTFONT (if you have a chip installed)
 	//void 		setFont(const struct FONT_DEF *	fnt);
 	void		setFont(const tFont *font);
 	void 		setIntFontCoding(enum RA8875fontCoding f);
@@ -693,7 +693,7 @@ using Print::write;
 			#if defined(__MKL26Z64__)	
 				_altSPI == true ? SPI1.beginTransaction(SPISettings(_SPImaxSpeed, MSBFIRST, SPI_MODE3)) : SPI.beginTransaction(SPISettings(_SPImaxSpeed, MSBFIRST, SPI_MODE3));
 			#elif defined(ESP8266)	
-				SPI.beginTransaction(SPISettings(_SPImaxSpeed, MSBFIRST, SPI_MODE0));//it works, anyway ESP doesn't work in MODE3!
+				SPI.beginTransaction(SPISettings(_SPImaxSpeed, MSBFIRST, SPI_MODE3));//it works, anyway ESP doesn't work in MODE3!
 			#elif defined(SPARK)	
 				SPI.beginTransaction(SPISettings(_SPImaxSpeed, MSBFIRST, SPI_MODE0));//TODO !
 			#else
